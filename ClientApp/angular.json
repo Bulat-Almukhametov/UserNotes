@@ -26,6 +26,9 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ionicons/dist/css/ionicons.min.css",
+              "node_modules/ionicons/dist/fonts/ionicons.woff",
+              "node_modules/ionicons/dist/fonts/ionicons.woff2",
+              "node_modules/ionicons/dist/fonts/ionicons.ttf",
               "src/styles.css"
             ],
             "scripts": []

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CommentListComponent } from './pages/home/comment-list/comment-list/comment-list.component';
+import {NoteService} from "./common/services/NoteService";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { CommentListComponent } from './pages/home/comment-list/comment-list/com
       { path: '', component: HomeComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [],
+  providers: [NoteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
