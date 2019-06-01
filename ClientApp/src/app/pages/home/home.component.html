@@ -1,0 +1,25 @@
+<h1>Hello, world!</h1>
+<p>Leaving feedback is a great way to rate your buying experience with all users.</p>
+
+<div class="container">
+  <h2>Comments</h2>
+  <div class="panel-group">
+
+    <!-- Comment list -->
+    <div class="p-3" *ngFor="let comment of commentsArray">
+      <div class="card">
+
+        <div class="card-header">{{ comment.user.nickname }} <i [ngClass]="{'icon ion-ios-ribbon': comment.user.admin}"></i>
+          <code class="float-right">{{ comment.createTime | date:'M/d h:mm a' }}</code>
+        </div>
+
+        <div class="card-body">
+          <h4>{{ comment.title }}</h4>
+          {{ comment.body }}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
