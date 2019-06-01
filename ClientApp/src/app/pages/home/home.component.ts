@@ -29,15 +29,3 @@ export class HomeComponent {
   }
 
 }
-
-interface Note {
-  user: User;
-  title: string;
-  body: string;
-  createTime: Date;
-}
-
-interface User {
-  nickname: string;
-  admin: boolean;
-}
