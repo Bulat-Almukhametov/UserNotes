@@ -31,7 +31,9 @@
               "node_modules/ionicons/dist/fonts/ionicons.ttf",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+
+            ]
           },
           "configurations": {
             "production": {

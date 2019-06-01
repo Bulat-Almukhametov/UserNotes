@@ -1,0 +1,50 @@
+<ul *ngIf="pager && pager.pages && pager.pages.length"
+    class="pagination"
+    style="padding: 35px;">
+  <li  class="page-item"
+       [ngClass]="{disabled:pager.currentPage === 1}">
+    <a
+      (click)="setPage(1)"
+      class="page-link">
+      Start
+    </a>
+  </li>
+
+  <li class="page-item"
+      [ngClass]="{disabled:pager.currentPage === 1}">
+    <a
+      (click)="setPage(pager.currentPage - 1)"
+      class="page-link">
+      Prev
+    </a>
+  </li>
+
+  <li *ngFor="let page of pager.pages"
+      class="page-item"
+      [ngClass]="{active:pager.currentPage === page}">
+    <a
+      class="page-link"
+      (click)="setPage(page)"
+      style="cursor: pointer;">
+      {{page}}
+    </a>
+  </li>
+
+  <li  class="page-item"
+       [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+    <a
+      (click)="setPage(pager.currentPage + 1)"
+      class="page-link">
+      Next
+    </a>
+  </li>
+
+  <li  class="page-item"
+       [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+    <a
+      (click)="setPage(pager.totalPages)"
+      class="page-link">
+      End
+    </a>
+  </li>
+</ul>

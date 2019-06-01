@@ -29,24 +29,31 @@ namespace UserNotes.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<NoteDto> AllPublic()
+        public PaginatedDataDto<NoteDto> AllPublic(int page, int size)
         {
-            int notesCount = 50;
+            int skipItems = (page - 1) * size;
+
+            int totalItems = 50;
+            int notesCount = (totalItems - skipItems) > size ? size : (totalItems - skipItems);
             var notes = new NoteDto[notesCount];
 
-            for (int i = 0; i < notesCount; i++)
+            for (int i = 0, j = skipItems; i < notesCount; i++, j++)
             {
                 var user = GetRandomUser();
                 notes[i] = new NoteDto
                 {
                     User = user,
-                    Title = $"Comment {i + 1}",
+                    Title = $"Comment {j + 1}",
                     Body = $"{ user.Nickname } says some interestin thing: \"So, I think bla bla bla!\"",
                     CreateTime = DateTime.Now
                 };
             }
 
-            return notes;
+            return new PaginatedDataDto<NoteDto>
+            {
+                Data = notes,
+                TotalItems = totalItems
+            };
         }
     }
 }
