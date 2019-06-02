@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-authorize',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class AuthorizeComponent implements OnInit {
   isChanged: boolean;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  login () {
+    window.isAuthenticated = true;
+    this.router.navigate(['']);
   }
 
 }

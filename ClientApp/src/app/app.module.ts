@@ -12,6 +12,7 @@ import {NoteService} from "./common/services/NoteService";
 import {PaginationComponent} from './common/components/pagination/pagination.component';
 import {EditComponent} from './pages/edit/edit.component';
 import { AuthorizeComponent } from './pages/authorize/authorize.component';
+import { AuthGuardService as AuthGuard} from './common/services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -28,14 +29,14 @@ import { AuthorizeComponent } from './pages/authorize/authorize.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent, pathMatch: 'full'},
-      {path: 'List/:page', component: HomeComponent},
-      {path: 'Edit/:id', component: EditComponent},
-      {path: 'New', component: EditComponent},
+      {path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+      {path: 'List/:page', component: HomeComponent, canActivate: [AuthGuard]},
+      {path: 'Edit/:id', component: EditComponent, canActivate: [AuthGuard]},
+      {path: 'New', component: EditComponent, canActivate: [AuthGuard]},
       {path: 'Login', component: AuthorizeComponent}
     ])
   ],
-  providers: [NoteService],
+  providers: [NoteService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

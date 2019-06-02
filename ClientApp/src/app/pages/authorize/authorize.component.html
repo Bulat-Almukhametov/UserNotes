@@ -16,7 +16,7 @@
           <input type="password" class="form-control" id="password" placeholder="Enter password">
         </div>
         <div class="row p-3">
-          <button class="btn btn-outline-primary m-2" [disabled]="isChanged">Log in</button>
+          <button class="btn btn-outline-primary m-2" (click)="login()" [disabled]="isChanged">Log in</button>
         </div>
       </form>
     </div>
