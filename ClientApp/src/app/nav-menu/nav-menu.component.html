@@ -10,9 +10,14 @@
         <!-- Pages -->
         <ul class="navbar-nav flex-grow">
 
-          <!-- Home component -->
+          <!-- Home page -->
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
+            <a class="nav-link text-dark" [routerLink]='["/"]'>List</a>
+          </li>
+
+          <!-- New note page -->
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/New"]'>New</a>
           </li>
 
         </ul>
