@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-center">
+  <div class="card" style="width: 500px;">
+
+    <div class="card-header">Authorization</div>
+
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label for="nick">Nickname</label>
+          <small id="nickHelp" class="form-text text-danger">This field is empty.</small>
+          <input type="text" class="form-control" id="nick" placeholder="Enter nickname">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <small id="passwordHelp" class="form-text text-danger">This field is empty.</small>
+          <input type="password" class="form-control" id="password" placeholder="Enter password">
+        </div>
+        <div class="row p-3">
+          <button class="btn btn-outline-primary m-2" [disabled]="isChanged">Log in</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

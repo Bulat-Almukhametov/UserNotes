@@ -11,6 +11,7 @@ import {CommentListComponent} from './pages/home/comment-list/comment-list.compo
 import {NoteService} from "./common/services/NoteService";
 import {PaginationComponent} from './common/components/pagination/pagination.component';
 import {EditComponent} from './pages/edit/edit.component';
+import { AuthorizeComponent } from './pages/authorize/authorize.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {EditComponent} from './pages/edit/edit.component';
     CommentListComponent,
     PaginationComponent,
     EditComponent,
+    AuthorizeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -29,7 +31,8 @@ import {EditComponent} from './pages/edit/edit.component';
       {path: '', component: HomeComponent, pathMatch: 'full'},
       {path: 'List/:page', component: HomeComponent},
       {path: 'Edit/:id', component: EditComponent},
-      {path: 'New', component: EditComponent}
+      {path: 'New', component: EditComponent},
+      {path: 'Login', component: AuthorizeComponent}
     ])
   ],
   providers: [NoteService],
