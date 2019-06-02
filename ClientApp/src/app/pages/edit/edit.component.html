@@ -1,6 +1,6 @@
 <div class="card">
 
-  <div class="card-header"> {{ editMode }} note  </div>
+  <div class="card-header"> {{ editMode }} note</div>
 
   <div class="card-body">
     <form>
@@ -13,6 +13,10 @@
         <label for="noteBody">Text</label>
         <small id="bodyHelp" class="form-text text-warning">This field is empty.</small>
         <textarea class="form-control" id="noteBody" placeholder="Leave your message"></textarea>
+      </div>
+      <div class="row p-3">
+        <button class="btn btn-primary m-2" [disabled]="isChanged">Submit</button>
+        <button class="btn btn-light" [disabled]="isChanged">Cancel</button>
       </div>
     </form>
   </div>

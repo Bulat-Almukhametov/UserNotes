@@ -11,6 +11,7 @@ export class EditComponent implements OnInit {
    */
   private editMode: string;
   private id: number;
+  private isChanged: boolean;
 
   constructor(private route: ActivatedRoute) {
   }
