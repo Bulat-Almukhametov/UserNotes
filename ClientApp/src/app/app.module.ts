@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
@@ -13,6 +13,9 @@ import {PaginationComponent} from './common/components/pagination/pagination.com
 import {EditComponent} from './pages/edit/edit.component';
 import { AuthorizeComponent } from './pages/authorize/authorize.component';
 import { AuthGuardService as AuthGuard} from './common/services/auth-guard.service';
+import { AuthInterceptorService as AuthInterceptor} from './common/services/auth-interceptor.service';
+import {AuthService} from "./common/services/auth.service";
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -36,7 +39,18 @@ import { AuthGuardService as AuthGuard} from './common/services/auth-guard.servi
       {path: 'Login', component: AuthorizeComponent}
     ])
   ],
-  providers: [NoteService, AuthGuard],
+  providers: [
+    NoteService,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    AuthService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
