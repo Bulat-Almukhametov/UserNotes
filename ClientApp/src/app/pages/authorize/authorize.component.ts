@@ -8,7 +8,8 @@ import {AuthService} from "../../common/services/auth.service";
   templateUrl: './authorize.component.html'
 })
 export class AuthorizeComponent implements OnInit {
-  isChanged: boolean;
+  nicknameValidationError: string;
+
   credentials: any = {
     nickname: "",
     password: ""
@@ -31,5 +32,19 @@ export class AuthorizeComponent implements OnInit {
 
   showError(error: string) {
     alert(error);
+  }
+
+  validateNickname() {
+    if (!this.credentials.nickname)
+      this.nicknameValidationError = "This field is empty.";
+    else
+      this.nicknameValidationError = null;
+  }
+
+  validatePassword() {
+    if (!this.credentials.password)
+      this.passwordValidationError = "This field is empty.";
+    else
+      this.passwordValidationError = null;
   }
 }

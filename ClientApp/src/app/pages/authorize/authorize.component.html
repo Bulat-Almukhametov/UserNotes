@@ -5,16 +5,22 @@
 
     <div class="card-body">
       <form #authForm="ngForm">
+
+        <!-- Nickname field -->
         <div class="form-group">
           <label for="nick">Nickname</label>
-          <small id="nickHelp" class="form-text text-danger">This field is empty.</small>
-          <input type="text" class="form-control" [(ngModel)]="credentials.nickname" name="nickname" id="nick" placeholder="Enter nickname">
+          <small id="nickHelp" *ngIf="nicknameValidationError" class="form-text text-danger">{{ nicknameValidationError }}</small>
+          <input type="text" class="form-control" (change)="validateNickname()" [(ngModel)]="credentials.nickname" name="nickname" id="nick" placeholder="Enter nickname">
         </div>
+
+        <!-- Password field -->
         <div class="form-group">
           <label for="password">Password</label>
-          <small id="passwordHelp" class="form-text text-danger">This field is empty.</small>
-          <input type="password" class="form-control" [(ngModel)]="credentials.password" name="password" id="password" placeholder="Enter password" >
+          <small id="passwordHelp" *ngIf="passwordValidationError" class="form-text text-danger">This field is empty.</small>
+          <input type="password" (change)="validatePassword()" class="form-control" [(ngModel)]="credentials.password" name="password" id="password" placeholder="Enter password" >
         </div>
+
+        <!-- Submit button -->
         <div class="row p-3">
           <button class="btn btn-outline-primary m-2"
                   (click)="login()"
@@ -22,6 +28,7 @@
             Log in
           </button>
         </div>
+
       </form>
     </div>
 
