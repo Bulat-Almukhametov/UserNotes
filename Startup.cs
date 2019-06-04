@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace UserNotes
 {
@@ -54,6 +55,9 @@ namespace UserNotes
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +78,7 @@ namespace UserNotes
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseSession();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {

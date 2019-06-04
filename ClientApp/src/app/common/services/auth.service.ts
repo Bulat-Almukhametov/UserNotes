@@ -2,7 +2,9 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/index";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+import {sha256} from "js-sha256";
+import {mergeMap} from "rxjs/internal/operators";
 
 @Injectable()
 export class AuthService {
@@ -21,11 +23,17 @@ export class AuthService {
   }
 
   public authenticate(nickname: string, password: string): Observable<any> {
-    return this.http.post(this.baseUrl + 'api/Auth/Login', {nickname: nickname, password: password})
+    return this.http.post('api/Auth/GetHashingNumber', {})
+      .pipe(mergeMap(hashingNumber => {
+        let passwordHash = sha256(hashingNumber + password.toLowerCase());
+
+        return this.http.post(this.baseUrl + 'api/Auth/Login', {nickname: nickname, passwordHash: passwordHash});
+      }))
       .pipe(map(token => {
         localStorage.setItem(this.tokenKey, <string>token['access_token']);
         return token;
       }));
+    ;
   }
 
   public getToken(): string {
