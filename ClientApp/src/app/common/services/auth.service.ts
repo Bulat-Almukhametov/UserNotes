@@ -23,7 +23,7 @@ export class AuthService {
   public authenticate(nickname: string, password: string): Observable<any> {
     return this.http.post(this.baseUrl + 'api/Auth/Login', {nickname: nickname, password: password})
       .pipe(map(token => {
-        localStorage.setItem(this.tokenKey, <string>token.access_token);
+        localStorage.setItem(this.tokenKey, <string>token['access_token']);
         return token;
       }));
   }
