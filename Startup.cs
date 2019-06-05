@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using UserNotes.Infrastructure;
 
 namespace UserNotes
 {
@@ -58,6 +60,11 @@ namespace UserNotes
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(1);
             });
+
+
+            var connection = Configuration.GetConnectionString("UserNotesDatabase");
+            services.AddDbContext<UserNotesDbContext>
+                (options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
