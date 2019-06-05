@@ -9,6 +9,7 @@ import {AuthService} from "../../common/services/auth.service";
 })
 export class AuthorizeComponent implements OnInit {
   nicknameValidationError: string;
+  passwordValidationError: string;
 
   credentials: any = {
     nickname: "",
