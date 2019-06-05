@@ -25,7 +25,7 @@ export class AuthService {
   public authenticate(nickname: string, password: string): Observable<any> {
     return this.http.post('api/Auth/GetHashingNumber', {})
       .pipe(mergeMap(hashingNumber => {
-        let passwordHash = sha256(hashingNumber + password.toLowerCase());
+        let passwordHash = sha256(hashingNumber + sha256(password));
 
         return this.http.post(this.baseUrl + 'api/Auth/Login', {nickname: nickname, passwordHash: passwordHash});
       }))

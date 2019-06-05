@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using UserNotes.Dtos;
+using UserNotes.Infrastructure;
 
 namespace UserNotes.Controllers
 {
@@ -18,6 +20,12 @@ namespace UserNotes.Controllers
     public class AuthController : Controller
     {
         const string HASHING_NUMBER_KEY = "HashingNumber";
+        private UserNotesDbContext _Context;
+
+        public AuthController(UserNotesDbContext context)
+        {
+            _Context = context;
+        }
 
         [HttpPost("[action]")]
         public async Task<int> GetHashingNumber()
@@ -32,7 +40,7 @@ namespace UserNotes.Controllers
         [HttpPost("[action]")]
         public async Task Login(CredentialsDto credentials)
         {
-            var identity = GetIdentity(credentials.Nickname, credentials.PasswordHash);
+            var identity = await GetIdentity(credentials.Nickname, credentials.PasswordHash);
             if (identity == null)
             {
                 Response.StatusCode = 400;
@@ -65,15 +73,16 @@ namespace UserNotes.Controllers
             return encodedJwt;
         }
 
-        private ClaimsIdentity GetIdentity(string nickname, string passwordHash)
+        private async Task<ClaimsIdentity> GetIdentity(string nickname, string passwordHash)
         {
-            if (String.Equals(nickname, "Mickey Mouse", StringComparison.OrdinalIgnoreCase)
-                && CheckHashWithValue(passwordHash, "Disney Land"))
+            var user = await _Context.Users.FirstAsync(u => EF.Functions.Like(nickname, u.Login));
+            if (user != null && CheckHashWithValue(passwordHash, user.PasswordHash))
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, "Mickey Mouse"),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.IsAdmin ? "admin" : "ordinal"),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -84,17 +93,14 @@ namespace UserNotes.Controllers
             return null;
         }
 
-        private bool CheckHashWithValue(string hash, string value)
+        private bool CheckHashWithValue(string hash, string hashedPassword)
         {
             int? sessionHashingNumber = HttpContext.Session.GetInt32(HASHING_NUMBER_KEY);
             if (sessionHashingNumber.HasValue)
             {
                 int hashingNumber = sessionHashingNumber.Value;
-                string hashingValue = hashingNumber + value.ToLower();
-
-                HashAlgorithm algorithm = SHA256.Create();
-                var hashedBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(hashingValue));
-                string hashedValue = BitConverter.ToString(hashedBytes).Replace("-", String.Empty);
+                string hashingValue = hashingNumber + hashedPassword;
+                string hashedValue = Sha256(hashingValue);
 
                 if (String.Equals(hash, hashedValue, StringComparison.OrdinalIgnoreCase))
                 {
@@ -103,6 +109,14 @@ namespace UserNotes.Controllers
             }
 
             return false;
+        }
+
+        private static string Sha256(string hashingValue)
+        {
+            HashAlgorithm algorithm = SHA256.Create();
+            var hashedBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(hashingValue));
+            string hashedValue = BitConverter.ToString(hashedBytes).Replace("-", String.Empty);
+            return hashedValue;
         }
     }
 }
