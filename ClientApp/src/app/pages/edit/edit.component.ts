@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {NoteService} from "../../common/services/NoteService";
 
 @Component({
   selector: 'app-edit',
@@ -11,9 +12,13 @@ export class EditComponent implements OnInit {
    */
   private editMode: string;
   private id: number;
-  private isChanged: boolean;
 
-  constructor(private route: ActivatedRoute) {
+  private note: Note;
+  private oldNoteString: string;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private noteService: NoteService) {
   }
 
   ngOnInit() {
@@ -24,10 +29,30 @@ export class EditComponent implements OnInit {
     }
     else {
       this.editMode = "New";
+      this.note = <Note>{
+        title: "",
+        body: "",
+        isPublic: true
+      };
+      this.oldNoteString = JSON.stringify(this.note);
     }
   }
 
-  loadData (id: number) {
+  loadData(id: number) {
 
+  }
+
+  isChanged() {
+    return JSON.stringify(this.note) != this.oldNoteString;
+  }
+
+  submitNote() {
+    this.noteService.Edit(this.note)
+      .subscribe(() => this.router.navigate(['/']),
+      response => alert('Sending request error.'));
+  }
+
+  restoreOldNote() {
+    this.note = JSON.parse(this.oldNoteString);
   }
 }

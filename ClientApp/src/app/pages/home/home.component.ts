@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 export class HomeComponent implements OnInit {
 
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 4;
   totalItems: number;
   commentsArray: Note[] = [];
 
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadData(currentPage) {
-    this.noteService.GetPublicNotes(currentPage, this.pageSize)
+    this.noteService.GetAllNotes(currentPage, this.pageSize)
       .subscribe(paginatedData => {
         this.commentsArray = paginatedData.data;
         this.totalItems = paginatedData.totalItems;

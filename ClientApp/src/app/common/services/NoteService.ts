@@ -8,7 +8,11 @@ export class NoteService {
 
   }
 
-  public GetPublicNotes(currentPage: number, size: number): Observable<PaginatedData<Note>> {
-    return this.http.get<PaginatedData<Note>>(this.baseUrl + 'api/Note/AllPublic?page=' + currentPage + '&size=' + size);
+  public GetAllNotes(currentPage: number, size: number, isPublic:boolean = false): Observable<PaginatedData<Note>> {
+    return this.http.get<PaginatedData<Note>>(this.baseUrl + 'api/Note/All?page=' + currentPage + '&size=' + size + '&public=' + isPublic);
+  }
+
+  public Edit(note: Note): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'api/Note/Edit', note);
   }
 }

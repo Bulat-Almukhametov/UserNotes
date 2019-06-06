@@ -3,4 +3,5 @@ interface Note {
   title: string;
   body: string;
   createTime: Date;
+  isPublic: boolean;
 }

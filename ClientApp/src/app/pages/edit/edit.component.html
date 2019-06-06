@@ -4,20 +4,33 @@
 
   <div class="card-body">
     <form>
+
+      <!-- Title field -->
       <div class="form-group">
         <label for="noteTitle">Title</label>
         <small id="titleHelp" class="form-text text-warning">This field is empty.</small>
-        <input type="text" class="form-control" id="noteTitle" placeholder="Enter title">
+        <input type="text" class="form-control" id="noteTitle" [(ngModel)]="note.title" name="title" placeholder="Enter title">
       </div>
+
+      <!-- Note text field -->
       <div class="form-group">
         <label for="noteBody">Text</label>
         <small id="bodyHelp" class="form-text text-warning">This field is empty.</small>
-        <textarea class="form-control" id="noteBody" placeholder="Leave your message"></textarea>
+        <textarea class="form-control" id="noteBody" name="body" [(ngModel)]="note.body" placeholder="Leave your message"></textarea>
       </div>
+
+      <!-- Public checkbox -->
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="notePublic" name="public" [(ngModel)]="note.isPublic">
+        <label class="form-check-label" for="notePublic">Public</label>
+      </div>
+
+      <!-- Buttons -->
       <div class="row p-3">
-        <button class="btn btn-primary m-2" [disabled]="isChanged">Submit</button>
-        <button class="btn btn-outline-primary m-2" [disabled]="isChanged">Cancel</button>
+        <button class="btn btn-primary m-2" (click)="submitNote()" [disabled]="!isChanged()">Submit</button>
+        <button class="btn btn-outline-primary m-2" [disabled]="!isChanged()" (click)="restoreOldNote()">Cancel</button>
       </div>
+
     </form>
   </div>
 
